@@ -22,6 +22,7 @@ dmg:
 	-cp -a $(BUILD)/share/git* ./julia/share
 	rm -f julia/lib/*.{a,la}
 	mv julia/bin julia/bin_wrapped
+	mkdir julia/bin
 	cp wrapper julia/bin/julia-readline
 	cp wrapper julia/bin/julia-basic
 	cp wrapper julia/bin/julia-debug-readline
