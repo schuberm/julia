@@ -23,10 +23,11 @@ dmg:
 	rm -f julia/lib/*.{a,la}
 	mv julia/bin julia/bin_wrapped
 	mkdir julia/bin
-	cp wrapper julia/bin/julia-readline
-	cp wrapper julia/bin/julia-basic
-	cp wrapper julia/bin/julia-debug-readline
-	cp wrapper julia/bin/julia-debug-basic
+	cp wrapper julia/bin/julia
+	ln -s julia julia/bin/julia-readline
+	ln -s julia julia/bin/julia-basic
+	ln -s julia julia/bin/julia-debug-readline
+	ln -s julia julia/bin/julia-debug-basic
 	-mkdir dmg
 	platypus -a Julia -p /bin/bash -V $(JULIA_VERSION) -R -u "The Julia Project" -i julia.icns -Q julia.icns -o "None" -I org.julialang -x -f julia script ./dmg/Julia-$(JULIA_VERSION)-pre-$(JULIA_COMMIT).app
 	-cp -f Julia.icns dmg/.VolumeIcon.icns
