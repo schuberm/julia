@@ -59,12 +59,14 @@ function rmdir(path::String)
     systemerror(:rmdir, ret != 0)
 end
 
+rm(path::String) = FS.unlink(path)
+ln(target::String, linkname::String) = symlink(target, linkname)
+
 # The following use Unix command line facilites
 
-rm(path::String) = FS.unlink(path)
-cp(src::String, dst::String) = run(`cp $src $dst`)
-mv(src::String, dst::String) = run(`mv $src $dst`)
-touch(path::String) = run(`touch $path`)
+@unix_only cp(src::String, dst::String) = run(`cp $src $dst`)
+@unix_only mv(src::String, dst::String) = run(`mv $src $dst`)
+@unix_only touch(path::String) = run(`touch $path`)
 
 # Obtain a temporary filename.
 function tempname()

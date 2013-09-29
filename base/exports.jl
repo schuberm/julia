@@ -1176,6 +1176,7 @@ export
     rm,
     rmdir,
     stat,
+    symlink,
     tempdir,
     tempname,
     touch,

@@ -108,6 +108,22 @@ normpath(a::String, b::String...) = normpath(joinpath(a,b...))
 abspath(a::String) = normpath(isabspath(a) ? a : joinpath(pwd(),a))
 abspath(a::String, b::String...) = abspath(joinpath(a,b...))
 
+function relpath(p1::String, p2::String = pwd())
+    A, a = splitdrive(p1)
+    B, b = splitdrive(p2)
+
+    if A != B;  return abspath(p1); end
+
+    s1 = split(abspath(a), Base.path_separator_re)
+    s2 = split(abspath(b), Base.path_separator_re)
+    i = 1
+    while true
+        if i > length(s1) || i > length(s2) || s1[i] != s2[i]; break; end
+        i += 1
+    end
+    length(s1) == length(s2) < i ? "" : joinpath([fill("..", max(length(s2)-i+1,0)), s1[i:end]...]...)
+end
+
 function realpath(path::String)
     p = ccall(:realpath, Ptr{Uint8}, (Ptr{Uint8}, Ptr{Uint8}), path, C_NULL)
     systemerror(:realpath, p == C_NULL)
